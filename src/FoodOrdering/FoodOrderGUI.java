@@ -29,6 +29,7 @@ public class FoodOrderGUI extends JFrame{
 
                 double disc = 0.0;
 
+                try {
                     if (cPizza.isSelected()) {
                         total += 100.0;
                     }
@@ -48,6 +49,10 @@ public class FoodOrderGUI extends JFrame{
                         total += 40.0;
                     }
 
+                    if (total == 0.0) {
+                        throw new EmptySelectionException();
+                    }
+
                     if (rb5.isSelected()) {
                         disc = 0.05;
                     } else if (rb10.isSelected()) {
@@ -61,6 +66,9 @@ public class FoodOrderGUI extends JFrame{
                     double cost = total - (total * disc);
 
                     JOptionPane.showMessageDialog(null, "The total price is Php " + String.format("%.2f", cost));
+                } catch (EmptySelectionException ex) {
+                    JOptionPane.showMessageDialog(null,"Item Selection Required");
+                }
             }
         });
     }
@@ -72,5 +80,10 @@ public class FoodOrderGUI extends JFrame{
         app.setTitle("Food Ordering System");
         app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         app.setVisible(true);
+    }
+}
+
+class EmptySelectionException extends Exception {
+    public EmptySelectionException() {
     }
 }
