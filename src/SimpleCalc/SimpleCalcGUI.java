@@ -1,7 +1,5 @@
 package SimpleCalc;
 
-import LeapYear.LeapYearGUI;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,30 +20,42 @@ public class SimpleCalcGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                double num1 = Double.parseDouble(tfNumber1.getText());
+                try {
+                    double num1 = Double.parseDouble(tfNumber1.getText());
+                    double num2 = Double.parseDouble(tfNumber2.getText());
 
-                double num2 = Double.parseDouble(tfNumber2.getText());
+                    String operator = (String) cbOperations.getSelectedItem();
 
-                String operator = (String)cbOperations.getSelectedItem();
+                    double result = 0;
 
-                double result=0;
+                    if (operator != null) {
+                        switch (operator) {
+                            case "+":
+                                result = num1 + num2;
+                                break;
+                            case "-":
+                                result = num1 - num2;
+                                break;
+                            case "*":
+                                result = num1 * num2;
+                                break;
+                            case "/":
+                                if(num2 == 0){
+                                    throw new ArithmeticException();
+                                }
+                                result = num1 / num2;
+                                break;
+                        }
+                    }
 
-                switch (operator) {
-                    case "+":
-                        result = num1 + num2;
-                        break;
-                    case "-":
-                        result = num1 - num2;
-                        break;
-                    case "*":
-                        result = num1 * num2;
-                        break;
-                    case "/":
-                        result = num1 / num2;
-                        break;
+                    lblResult.setText(String.format("%.2f", result));
+                } catch (ArithmeticException ex) {
+                    JOptionPane.showMessageDialog(null, "Input Cannot Be Zero");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Input Invalid");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error Occurred");
                 }
-
-                lblResult.setText(String.format("%.2f",result));
 
             }
         });
